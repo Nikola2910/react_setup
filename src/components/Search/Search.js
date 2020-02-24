@@ -1,7 +1,15 @@
-import React from "react";
+import React, {Component} from "react";
+import './Search.scss';
 
-const Search = () => {
-  return <input type="text" placeholder="Search" />;
-};
+class Search extends Component {
 
-export { Search };
+
+	render() {
+	return (
+			<input className="search" />
+		)
+}
+
+}
+
+export {Search};

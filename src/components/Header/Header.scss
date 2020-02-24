@@ -1,0 +1,20 @@
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	
+	padding: 15px;
+
+	&.black{
+		background-color: black;
+	}
+
+	&.gray {
+		background-color: gray;
+	}
+
+	.logo {
+		width: 110px
+	}
+}
+
