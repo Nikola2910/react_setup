@@ -5,15 +5,29 @@ import logo from '../../img/logo.png';
 import {Search} from '../Search/Search';
 
 
-const Header = (props) => {
+const Header = ({black, search, onPrint}) => {
+
+	
+
+	const renderSearch = () => {
+		if (search){
+			return <Search />;
+		}
+
+			return null;
+		
+
+	}
 
 	return(
 
-		<header className={props.background}> 
+		<header className={`header ${black ? `black` : `` }`}> 
 		<img src={logo} className='logo' />
-		<Search />
-		 </header>
+		{renderSearch()}
+		{onPrint('Text for printing')}
 
+		 </header>
+		
 		)
 }
 
