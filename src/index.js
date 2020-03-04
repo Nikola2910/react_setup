@@ -2,4 +2,4 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 
-ReactDOM.render(<App name='someName'/>, document.getElementById("app"));
+ReactDOM.render(<App color="light" />, document.getElementById("app"));

@@ -1,28 +1,17 @@
-import React from "react";
-import uuid from 'react-uuid'
+import React, { Fragment } from "react";
+import { Card } from "../Card/Card";
+import uuid from "react-uuid";
 
+const Cards = ({ data }) => {
+  const renderCards = () => (
+    <ul>
+      {data.map(card => (
+        <Card key={uuid()} name={card.name} age={card.age} />
+      ))}
+    </ul>
+  );
 
-const Cards = props => {
+  return <Fragment>{renderCards()}</Fragment>;
+};
 
-	const renderCards = () => {
-		return props.data.map((card) => {
-			return (
-					<li key={uuid()}>{card.name} {card.age}</li>
-				)
-		})
-	}
-
-	return (
-
-		<ul>
-
-		{renderCards()}
-
-		</ul>
-		)
-
-
-}
-
-
-export { Cards }
+export { Cards };
