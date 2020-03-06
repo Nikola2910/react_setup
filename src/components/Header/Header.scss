@@ -1,20 +1,23 @@
 header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	
-	padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-	&.black{
-		background-color: black;
-	}
+  padding: 15px;
 
-	&.gray {
-		background-color: gray;
-	}
+  &.black {
+    background-color: black;
+  }
 
-	.logo {
-		width: 110px
-	}
+  &.gray {
+    background-color: gray;
+  }
+
+  .logo {
+    width: 70px;
+  }
+
+  .sort {
+    cursor: pointer;
+  }
 }
-

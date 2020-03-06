@@ -1,8 +1,10 @@
 import React, { Component, Fragment } from "react";
 import "./App.scss";
+import uuid from "react-uuid";
 
 import { Header } from "./components/Header/Header";
 import { Cards } from "./components/Cards/Cards";
+import { Popup } from "./components/Popup/Popup";
 
 class App extends Component {
   // Prvi se izvrsava constructor
@@ -21,8 +23,14 @@ class App extends Component {
   //   return false;
   // }
 
+  //  componentDidMount() {
+  //     this.setState({
+  //       searchedData: this.state.data,
+  //     })
+  //   }
+
   // svaki put nakon update-a
-  componentDidUpdate() {}
+  // componentDidUpdate() {}
 
   // CETVRTA metoda po redu, tj POSLE rendera, desava  se jednom samo pri prvom renderu
 
@@ -31,38 +39,103 @@ class App extends Component {
   // }
 
   state = {
-    header: true,
+    popup: false,
+
     data: [
       {
         name: "Peter",
-        age: 33
+        lastName: "Jackson",
+        age: 33,
+        id: uuid()
       },
       {
         name: "Mark",
-        age: 32
+        lastName: "Markovic",
+        age: 32,
+        id: uuid()
       },
       {
         name: "John",
-        age: 22
+        lastName: "Johnson",
+        age: 22,
+        id: uuid()
       },
       {
         name: "Ilija",
-        age: 22
+        lastName: "Reljic",
+        age: 28,
+        id: uuid()
       },
       {
         name: "Nikola",
-        age: 22
+        lastName: "Ivanovic",
+        age: 27,
+        id: uuid()
       },
       {
         name: "Nigel",
-        age: 22
+        lastName: "De Jong",
+        age: 39,
+        id: uuid()
       },
       {
         name: "Jovan",
-        age: 22
+        lastName: "Suzic",
+        age: 30,
+        id: uuid()
       }
     ],
     filteredData: []
+  };
+
+  addUser = user => {
+    let users = [...this.state.data, user];
+
+    this.setState({
+      data: users,
+      filteredData: users
+    });
+  };
+
+  removeUser = id => {
+    let users = this.state.data.filter(user => {
+      return user.id !== id;
+    });
+    this.setState({
+      data: users,
+      filteredData: users
+    });
+  };
+
+  copyUser = id => {
+    let copiedUser = {};
+    this.state.data.filter(user => {
+      if (user.id === id) {
+        copiedUser.name = user.name;
+        copiedUser.lastName = user.lastName;
+        copiedUser.age = user.age;
+      }
+      return copiedUser;
+    });
+
+    copiedUser.id = uuid();
+    let newData = [...this.state.data, copiedUser];
+    this.setState({
+      data: newData,
+      filteredData: newData
+    });
+  };
+
+  sortItems = () => {
+    const list = this.state.filteredData;
+    const sorted = list;
+    this.state.direction === true
+      ? list.sort((a, b) => (a.name > b.name ? 1 : -1))
+      : list.sort((a, b) => (a.name < b.name ? 1 : -1));
+    this.setState({
+      filteredData: sorted,
+      direction: !this.state.direction
+    });
   };
 
   componentDidMount() {
@@ -71,43 +144,47 @@ class App extends Component {
     });
   }
 
-  printSomething(text) {
-    console.log(text);
-  }
-
-  toggleHeader() {
-    this.setState({
-      header: !this.state.header
-    });
-  }
-
   filterData(searchResults) {
-    console.log(searchResults);
     this.setState({
       filteredData: searchResults
     });
   }
 
+  showPopup = () => {
+    this.setState({
+      popup: true
+    });
+  };
+
+  closePopup = () => {
+    this.setState({
+      popup: false
+    });
+  };
+
   // render se izvrsava TRECI po redu
   render() {
-    const { header, data, filteredData } = this.state;
+    const { data, filteredData, popup } = this.state;
 
     return (
       <Fragment>
-        {header && (
-          <Header
-            black
-            search
-            onPrint={text => {
-              this.printSomething(text);
-            }}
-            data={data}
-            onDataFilter={searchResults => this.filterData(searchResults)}
-          />
-        )}
+        <Header
+          black
+          search
+          data={data}
+          onDataFilter={searchResults => this.filterData(searchResults)}
+          sortItems={this.sortItems}
+        />
 
-        <Cards data={filteredData} />
-        <button onClick={() => this.toggleHeader()}>Toggle Header</button>
+        <Cards
+          data={filteredData}
+          showPopup={this.showPopup}
+          removeUser={this.removeUser}
+          copyUser={this.copyUser}
+          id={this.id}
+        />
+
+        {popup && <Popup addUser={this.addUser} closePopup={this.closePopup} />}
       </Fragment>
     );
   }

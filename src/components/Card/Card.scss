@@ -1,0 +1,37 @@
+.card {
+  position: relative;
+  border: 1px solid #bbb;
+  width: 32%;
+  min-width: 140px;
+  padding: 10px 20px;
+  margin: 10px 5px;
+
+  .user {
+    position: absolute;
+    width: 32px;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &.add-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      cursor: pointer;
+    }
+  }
+  .deleteUser {
+    position: absolute;
+    right: 5px;
+    cursor: pointer;
+  }
+  .copy {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+  }
+}

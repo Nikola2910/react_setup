@@ -1,14 +1,33 @@
 import React, { Fragment } from "react";
 import { Card } from "../Card/Card";
 import uuid from "react-uuid";
+import "./Cards.scss";
+import add from "../../img/add.png";
 
-const Cards = ({ data }) => {
+const Cards = ({ data, showPopup, removeUser, copyUser }) => {
   const renderCards = () => (
-    <ul>
+    <div className="cards">
+      <div className="add-user card" onClick={showPopup}>
+        {" "}
+        <img src={add} alt="add-user" />
+      </div>
+
       {data.map(card => (
-        <Card key={uuid()} name={card.name} age={card.age} />
+        <Card
+          key={uuid()}
+          id={card.id}
+          name={card.name}
+          lastName={card.lastName}
+          age={card.age}
+          removeUser={() => {
+            removeUser(card.id);
+          }}
+          copyUser={() => {
+            copyUser(card.id);
+          }}
+        />
       ))}
-    </ul>
+    </div>
   );
 
   return <Fragment>{renderCards()}</Fragment>;

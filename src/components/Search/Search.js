@@ -18,8 +18,10 @@ class Search extends Component {
 
     console.log(data);
 
-    const filteredData = data.filter(item =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredData = data.filter(
+      item =>
+        item.name.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
+        item.lastName.toLowerCase().startsWith(searchTerm.toLowerCase())
     );
     onDataFilter(filteredData);
   }
@@ -31,11 +33,13 @@ class Search extends Component {
   }
 
   render() {
+    const { searchTerm } = this.state;
+
     return (
       <input
         className="search"
         onChange={e => this.onSearchChange(e)}
-        value={this.state.searchTerm}
+        value={searchTerm}
       />
     );
   }
