@@ -6,6 +6,8 @@ import { Header } from "./components/Header/Header";
 import { Cards } from "./components/Cards/Cards";
 import { Popup } from "./components/Popup/Popup";
 
+import Flash from "react-reveal/Flash";
+
 class App extends Component {
   // Prvi se izvrsava constructor
   // constructor() {
@@ -175,15 +177,15 @@ class App extends Component {
           onDataFilter={searchResults => this.filterData(searchResults)}
           sortItems={this.sortItems}
         />
-
-        <Cards
-          data={filteredData}
-          showPopup={this.showPopup}
-          removeUser={this.removeUser}
-          copyUser={this.copyUser}
-          id={this.id}
-        />
-
+        <Flash>
+          <Cards
+            data={filteredData}
+            showPopup={this.showPopup}
+            removeUser={this.removeUser}
+            copyUser={this.copyUser}
+            id={this.id}
+          />
+        </Flash>
         {popup && <Popup addUser={this.addUser} closePopup={this.closePopup} />}
       </Fragment>
     );

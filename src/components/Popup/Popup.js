@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Exit } from "../Exit/Exit";
 import "./Popup.scss";
 import uuid from "react-uuid";
+import Zoom from "react-reveal/Zoom";
 
 class Popup extends Component {
   state = {
@@ -28,22 +29,24 @@ class Popup extends Component {
 
   render() {
     return (
-      <div className="popup">
-        <h2>Add User</h2>
-        <form onSubmit={this.handleSubmit}>
-          <Exit closePopup={this.props.closePopup} />
-          <label htmlFor="name">Name:</label>
-          <input type="text" id="name" onChange={this.handleChange} />
+      <Zoom top collapse when={this.state.popup}>
+        <div className="popup">
+          <h2>Add User</h2>
+          <form onSubmit={this.handleSubmit}>
+            <Exit closePopup={this.props.closePopup} />
+            <label htmlFor="name">Name:</label>
+            <input type="text" id="name" onChange={this.handleChange} />
 
-          <label htmlFor="name">Last Name:</label>
-          <input type="text" id="lastName" onChange={this.handleChange} />
+            <label htmlFor="name">Last Name:</label>
+            <input type="text" id="lastName" onChange={this.handleChange} />
 
-          <label htmlFor="name">Age:</label>
-          <input type="number" id="age" onChange={this.handleChange} />
+            <label htmlFor="name">Age:</label>
+            <input type="number" id="age" onChange={this.handleChange} />
 
-          <button>Submit</button>
-        </form>
-      </div>
+            <button>Submit</button>
+          </form>
+        </div>
+      </Zoom>
     );
   }
 }
