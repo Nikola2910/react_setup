@@ -1,23 +1,25 @@
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 
   padding: 15px;
 
+  div.wrap {
+    display: flex;
+    max-width: 800px;
+    width: 100%;
+    justify-content: space-between;
+
+    .logo {
+      width: 70px;
+    }
+
+    .sort {
+      cursor: pointer;
+    }
+  }
   &.black {
     background-color: black;
-  }
-
-  &.gray {
-    background-color: gray;
-  }
-
-  .logo {
-    width: 70px;
-  }
-
-  .sort {
-    cursor: pointer;
   }
 }

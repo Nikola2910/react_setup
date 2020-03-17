@@ -3,13 +3,24 @@ import { Card } from "../Card/Card";
 import uuid from "react-uuid";
 import "./Cards.scss";
 import add from "../../img/add.png";
+import ReactTooltip from "react-tooltip";
 
 const Cards = ({ data, showPopup, removeUser, editUser }) => {
   const renderCards = () => (
     <div className="cards">
+      <ReactTooltip
+        id="addUser"
+        place="top"
+        effect="solid"
+        type="info"
+        backgroundColor="rgb(0, 174, 255);"
+      >
+        <span> Add User </span>
+      </ReactTooltip>
+
       <div className="add-user card" onClick={showPopup}>
         {" "}
-        <img src={add} alt="add-user" />
+        <img data-tip data-for="addUser" src={add} alt="add-user" />
       </div>
 
       {data.map(card => (

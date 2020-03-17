@@ -3,6 +3,7 @@ import "./Card.scss";
 import user from "../../img/user.png";
 import deleteUser from "../../img/delete.png";
 import edit from "../../img/edit.png";
+import ReactTooltip from "react-tooltip";
 
 const Card = ({ name, lastName, age, id, removeUser, editUser }) => (
   <div className="card ">
@@ -10,7 +11,14 @@ const Card = ({ name, lastName, age, id, removeUser, editUser }) => (
     <h4>{lastName}</h4>
     <span>{age}</span>
     <img src={user} className="user" alt="user-icon" />
+
+    <ReactTooltip id="delete" place="top" effect="solid" type="error">
+      <span> Delete User </span>
+    </ReactTooltip>
+
     <img
+      data-tip
+      data-for="delete"
       src={deleteUser}
       className="deleteUser"
       alt="delete-user"
@@ -18,7 +26,18 @@ const Card = ({ name, lastName, age, id, removeUser, editUser }) => (
         removeUser(id);
       }}
     />
-    <img className="copy" src={edit} onClick={() => editUser(id)} />
+
+    <ReactTooltip id="edit" place="top" effect="solid" type="warning">
+      <span> Edit User </span>
+    </ReactTooltip>
+
+    <img
+      data-tip
+      data-for="edit"
+      className="copy"
+      src={edit}
+      onClick={() => editUser(id)}
+    />
   </div>
 );
 
