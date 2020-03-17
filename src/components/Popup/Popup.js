@@ -6,42 +6,73 @@ import Zoom from "react-reveal/Zoom";
 
 class Popup extends Component {
   state = {
-    name: null,
-    lastName: null,
-    age: null,
-    id: uuid()
+    name: "",
+    lastName: "",
+    age: ""
   };
 
+  componentDidMount() {
+    if (this.props.formData) {
+      this.setState({
+        ...this.props.formData
+      });
+    }
+  }
+
   handleChange = e => {
+    console.log(e.target.id, e.target.value, this.state);
     this.setState({
       [e.target.id]: e.target.value
     });
   };
 
   handleSubmit = e => {
-    const { addUser, closePopup } = this.props;
+    const { addUser, closePopup, onFormEdit } = this.props;
     const { popup } = this.state;
+    const data = { ...this.state };
 
     e.preventDefault();
-    addUser(this.state);
+
+    if (this.state.id) {
+      onFormEdit(data);
+    } else {
+      addUser(data);
+    }
     closePopup();
   };
 
   render() {
+    const { name, lastName, age, popup } = this.state;
+    const { closePopup, formData } = this.props;
     return (
-      <Zoom top collapse when={this.state.popup}>
+      <Zoom collapse when={popup}>
         <div className="popup">
-          <h2>Add User</h2>
+          {formData && formData.name ? <h2>Edit User</h2> : <h2>Add User</h2>}
           <form onSubmit={this.handleSubmit}>
-            <Exit closePopup={this.props.closePopup} />
+            <Exit closePopup={closePopup} />
             <label htmlFor="name">Name:</label>
-            <input type="text" id="name" onChange={this.handleChange} />
+            <input
+              type="text"
+              id="name"
+              value={(formData && formData.name) || name}
+              onChange={this.handleChange}
+            />
 
             <label htmlFor="name">Last Name:</label>
-            <input type="text" id="lastName" onChange={this.handleChange} />
+            <input
+              type="text"
+              id="lastName"
+              value={(formData && formData.lastName) || lastName}
+              onChange={this.handleChange}
+            />
 
             <label htmlFor="name">Age:</label>
-            <input type="number" id="age" onChange={this.handleChange} />
+            <input
+              type="number"
+              id="age"
+              value={(formData && formData.age) || age}
+              onChange={this.handleChange}
+            />
 
             <button>Submit</button>
           </form>

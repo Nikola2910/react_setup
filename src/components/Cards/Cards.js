@@ -4,7 +4,7 @@ import uuid from "react-uuid";
 import "./Cards.scss";
 import add from "../../img/add.png";
 
-const Cards = ({ data, showPopup, removeUser, copyUser }) => {
+const Cards = ({ data, showPopup, removeUser, editUser }) => {
   const renderCards = () => (
     <div className="cards">
       <div className="add-user card" onClick={showPopup}>
@@ -22,8 +22,8 @@ const Cards = ({ data, showPopup, removeUser, copyUser }) => {
           removeUser={() => {
             removeUser(card.id);
           }}
-          copyUser={() => {
-            copyUser(card.id);
+          editUser={() => {
+            editUser(card.id);
           }}
         />
       ))}

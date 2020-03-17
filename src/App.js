@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import "./App.scss";
 import uuid from "react-uuid";
+import { Communicators } from "./Communicators";
 
 import { Header } from "./components/Header/Header";
 import { Cards } from "./components/Cards/Cards";
@@ -9,123 +10,54 @@ import { Popup } from "./components/Popup/Popup";
 import Flash from "react-reveal/Flash";
 
 class App extends Component {
-  // Prvi se izvrsava constructor
-  // constructor() {
-  //   super();
-  // }
-  // Sledeca stvar je, PRE rendera - setovanje state-a na osnovu propsa, izbegavanje ponovnog rendera:
-
-  // static getDerivedStateFromProps() {}
-  // vraca true ili false
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (nextState.header !== this.state.header) {
-  //     return true;
-  //   }
-
-  //   return false;
-  // }
-
-  //  componentDidMount() {
-  //     this.setState({
-  //       searchedData: this.state.data,
-  //     })
-  //   }
-
-  // svaki put nakon update-a
-  // componentDidUpdate() {}
-
-  // CETVRTA metoda po redu, tj POSLE rendera, desava  se jednom samo pri prvom renderu
-
-  // componentDidMount() {
-  //   console.log(document.querySelector("button"));
-  // }
-
   state = {
     popup: false,
 
-    data: [
-      {
-        name: "Peter",
-        lastName: "Jackson",
-        age: 33,
-        id: uuid()
-      },
-      {
-        name: "Mark",
-        lastName: "Markovic",
-        age: 32,
-        id: uuid()
-      },
-      {
-        name: "John",
-        lastName: "Johnson",
-        age: 22,
-        id: uuid()
-      },
-      {
-        name: "Ilija",
-        lastName: "Reljic",
-        age: 28,
-        id: uuid()
-      },
-      {
-        name: "Nikola",
-        lastName: "Ivanovic",
-        age: 27,
-        id: uuid()
-      },
-      {
-        name: "Nigel",
-        lastName: "De Jong",
-        age: 39,
-        id: uuid()
-      },
-      {
-        name: "Jovan",
-        lastName: "Suzic",
-        age: 30,
-        id: uuid()
-      }
-    ],
-    filteredData: []
+    data: [],
+    filteredData: [],
+    formData: null
   };
 
-  addUser = user => {
-    let users = [...this.state.data, user];
+  fetchData() {
+    Communicators.Fetch().then(responseData => {
+      this.setState({
+        filteredData: this.formatData(responseData)
+      });
+    });
+  }
 
-    this.setState({
-      data: users,
-      filteredData: users
+  addUser = user => {
+    Communicators.Post(user).then(() => {
+      Communicators.Fetch().then(responseData => {
+        this.setState({
+          popup: false,
+          filteredData: this.formatData(responseData)
+        });
+      });
     });
   };
 
   removeUser = id => {
-    let users = this.state.data.filter(user => {
-      return user.id !== id;
-    });
+    Communicators.Delete(id).then(() => this.fetchData());
+  };
+
+  editUser = id => {
+    let forEditing = [...this.state.filteredData].find(item => item.id === id);
+
     this.setState({
-      data: users,
-      filteredData: users
+      popup: true,
+      formData: forEditing
     });
   };
 
-  copyUser = id => {
-    let copiedUser = {};
-    this.state.data.filter(user => {
-      if (user.id === id) {
-        copiedUser.name = user.name;
-        copiedUser.lastName = user.lastName;
-        copiedUser.age = user.age;
-      }
-      return copiedUser;
-    });
+  onFormEdit = data => {
+    const updatedData = {
+      name: data.name,
+      lastName: data.lastName,
+      age: age
+    };
 
-    copiedUser.id = uuid();
-    let newData = [...this.state.data, copiedUser];
-    this.setState({
-      data: newData,
-      filteredData: newData
-    });
+    Communicators.Put(data.id, updatedData).then(() => this.fetchData());
   };
 
   sortItems = () => {
@@ -141,9 +73,19 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.setState({
-      filteredData: this.state.data
-    });
+    this.fetchData();
+  }
+
+  formatData(responseData) {
+    const data = [];
+
+    for (const item in responseData) {
+      data.push({ ...responseData[item], id: item });
+    }
+
+    console.log(data);
+
+    return data;
   }
 
   filterData(searchResults) {
@@ -166,7 +108,7 @@ class App extends Component {
 
   // render se izvrsava TRECI po redu
   render() {
-    const { data, filteredData, popup } = this.state;
+    const { data, filteredData, popup, formData } = this.state;
 
     return (
       <Fragment>
@@ -182,11 +124,17 @@ class App extends Component {
             data={filteredData}
             showPopup={this.showPopup}
             removeUser={this.removeUser}
-            copyUser={this.copyUser}
-            id={this.id}
+            editUser={this.editUser}
           />
         </Flash>
-        {popup && <Popup addUser={this.addUser} closePopup={this.closePopup} />}
+        {popup && (
+          <Popup
+            addUser={this.addUser}
+            closePopup={this.closePopup}
+            formData={formData}
+            onFormEdit={this.onFormEdit}
+          />
+        )}
       </Fragment>
     );
   }

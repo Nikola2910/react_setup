@@ -2,9 +2,9 @@ import React from "react";
 import "./Card.scss";
 import user from "../../img/user.png";
 import deleteUser from "../../img/delete.png";
-import copy from "../../img/copy.png";
+import edit from "../../img/edit.png";
 
-const Card = ({ name, lastName, age, id, removeUser, copyUser }) => (
+const Card = ({ name, lastName, age, id, removeUser, editUser }) => (
   <div className="card ">
     <h3>{name}</h3>
     <h4>{lastName}</h4>
@@ -18,14 +18,7 @@ const Card = ({ name, lastName, age, id, removeUser, copyUser }) => (
         removeUser(id);
       }}
     />
-    <img
-      className="copy"
-      src={copy}
-      alt="copy"
-      onClick={() => {
-        copyUser(id);
-      }}
-    />
+    <img className="copy" src={edit} onClick={() => editUser(id)} />
   </div>
 );
 
