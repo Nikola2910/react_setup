@@ -12,15 +12,13 @@ class Popup extends Component {
   };
 
   componentDidMount() {
-    if (this.props.formData) {
-      this.setState({
-        ...this.props.formData
-      });
-    }
+    this.setState({
+      ...this.props.formData
+    });
   }
 
   handleChange = e => {
-    console.log(e.target.id, e.target.value, this.state);
+    console.log(e.target.value);
     this.setState({
       [e.target.id]: e.target.value
     });
@@ -33,6 +31,8 @@ class Popup extends Component {
 
     e.preventDefault();
 
+    console.log(this.state.id);
+
     if (this.state.id) {
       onFormEdit(data);
     } else {
@@ -42,12 +42,12 @@ class Popup extends Component {
   };
 
   render() {
-    const { name, lastName, age, popup } = this.state;
-    const { closePopup, formData } = this.props;
+    const { name, lastName, age, popup, formData } = this.state;
+    const { closePopup } = this.props;
     return (
       <Zoom collapse when={popup}>
         <div className="popup">
-          {formData && formData.name ? <h2>Edit User</h2> : <h2>Add User</h2>}
+          {this.props.formData ? <h2>Edit User</h2> : <h2>Add User</h2>}
           <form onSubmit={this.handleSubmit}>
             <Exit closePopup={closePopup} />
             <label htmlFor="name">Name:</label>

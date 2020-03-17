@@ -44,18 +44,23 @@ class App extends Component {
   editUser = id => {
     let forEditing = [...this.state.filteredData].find(item => item.id === id);
 
-    this.setState({
-      popup: true,
-      formData: forEditing
-    });
+    this.setState(
+      {
+        formData: forEditing
+      },
+      () => {
+        this.showPopup();
+      }
+    );
   };
 
   onFormEdit = data => {
     const updatedData = {
       name: data.name,
       lastName: data.lastName,
-      age: age
+      age: data.age
     };
+    console.log(updatedData);
 
     Communicators.Put(data.id, updatedData).then(() => this.fetchData());
   };
@@ -102,7 +107,8 @@ class App extends Component {
 
   closePopup = () => {
     this.setState({
-      popup: false
+      popup: false,
+      formData: null
     });
   };
 
