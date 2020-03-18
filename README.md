@@ -1,4 +1,4 @@
-![screenshot](http://i.imgur.com/4J2sxCR.png)
+![screenshot](http://i.imgur.com/58aYygr.png)
 
 - Simple app made using React JS where you can [add](http://i.imgur.com/7WfCWZ6.png) / [remove](http://i.imgur.com/GwYjSsA.png) or [edit](http://i.imgur.com/8bLyiIM.png) existing Users. Tooltips are added for better UX.
 - Each User shown in the app is rendered from Firebase collection.
