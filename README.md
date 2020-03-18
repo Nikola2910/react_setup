@@ -1,4 +1,4 @@
-![screenshot](http://i.imgur.com/58aYygr.png)
+![screenshot](http://i.imgur.com/M1WKzjK.png)
 
 - Simple app made using React JS where you can [add](http://i.imgur.com/7WfCWZ6.png) / [remove](http://i.imgur.com/GwYjSsA.png) or [edit](http://i.imgur.com/8bLyiIM.png) existing Users. Tooltips are added for better UX.
 - When the add or edit option is clicked, a [popup](http://i.imgur.com/1CLeLFG.png) is opened.
